@@ -1,0 +1,26 @@
+import re
+
+def is_suspicious_url(url):
+    """Basic heuristic check for phishing URLs"""
+    phishing_keywords = ["login", "verify", "bank", "update", "secure", "account", "paypal"]
+    suspicious_patterns = [
+        r"https?://[^\s]+@[^\s]+",  
+        r"https?://\d+\.\d+\.\d+\.\d+",  
+        r"https?://[^/]+/[^/]+/[^/]+/[^/]+",  
+    ]
+    
+    if any(keyword in url.lower() for keyword in phishing_keywords):
+        return True
+
+    for pattern in suspicious_patterns:
+        if re.search(pattern, url):
+            return True
+
+    return False
+
+if __name__ == "__main__":
+    url_to_check = input("Enter a URL to scan: ")
+    if is_suspicious_url(url_to_check):
+        print(f" WARNING: The URL '{url_to_check}' looks suspicious!")
+    else:
+        print(f" The URL '{url_to_check}' seems safe.")
